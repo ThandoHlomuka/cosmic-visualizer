@@ -59,6 +59,76 @@ function showStep(stepNumber) {
     }
 }
 
+// ==================== MOBILE MENU FUNCTIONS ====================
+function toggleMobileMenu() {
+    const menu = document.getElementById('navMenu');
+    const toggle = document.getElementById('mobileMenuToggle');
+    
+    if (menu && toggle) {
+        menu.classList.toggle('active');
+        toggle.classList.toggle('active');
+        
+        // Toggle aria-expanded
+        const isExpanded = menu.classList.contains('active');
+        toggle.setAttribute('aria-expanded', isExpanded);
+    }
+}
+
+function closeMobileMenu() {
+    const menu = document.getElementById('navMenu');
+    const toggle = document.getElementById('mobileMenuToggle');
+    
+    if (menu && toggle) {
+        menu.classList.remove('active');
+        toggle.classList.remove('active');
+        toggle.setAttribute('aria-expanded', 'false');
+    }
+}
+
+// Update active nav link on scroll
+function updateActiveNavLink() {
+    const sections = document.querySelectorAll('section[id]');
+    const scrollY = window.pageYOffset;
+    
+    sections.forEach(section => {
+        const sectionHeight = section.offsetHeight;
+        const sectionTop = section.offsetTop - 100;
+        const sectionId = section.getAttribute('id');
+        
+        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${sectionId}`) {
+                    link.classList.add('active');
+                }
+            });
+            
+            document.querySelectorAll('.mobile-nav-item').forEach(item => {
+                item.classList.remove('active');
+                const mobileItem = document.querySelector(`.mobile-nav-item[href="#${sectionId}"]`);
+                if (mobileItem) {
+                    mobileItem.classList.add('active');
+                }
+            });
+        }
+    });
+}
+
+// Add scroll listener for active nav
+window.addEventListener('scroll', () => {
+    updateActiveNavLink();
+    
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    if (navbar) {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    }
+});
+
 function startLaunchSequence() {
     if (launchSequenceRunning) return;
     

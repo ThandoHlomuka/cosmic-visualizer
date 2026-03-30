@@ -149,20 +149,46 @@
                 </div>
             </div>
 
+            <div class="mobile-menu-toggle" id="mobileMenuToggle" onclick="toggleMobileMenu()">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </div>
+
             <ul class="nav-menu" id="navMenu">
                 <li><a href="#home" class="nav-link active">Home</a></li>
                 <li><a href="#solar-system" class="nav-link">Solar System</a></li>
                 <li><a href="#simulation" class="nav-link">Simulation</a></li>
                 <li><a href="#results" class="nav-link">Results</a></li>
+                <li class="nav-cta">
+                    <button class="btn btn-primary btn-sm" onclick="toggleFullScreen()">
+                        <i class="fas fa-expand"></i>
+                        <span>Full Screen</span>
+                    </button>
+                </li>
             </ul>
-
-            <div class="nav-actions">
-                <button class="btn btn-primary" onclick="toggleFullScreen()">
-                    <i class="fas fa-expand"></i> Full Screen
-                </button>
-            </div>
         </div>
     </nav>
+
+    <!-- Mobile Bottom Navigation -->
+    <div class="mobile-bottom-nav" id="mobileBottomNav">
+        <a href="#home" class="mobile-nav-item active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="#solar-system" class="mobile-nav-item">
+            <i class="fas fa-globe"></i>
+            <span>Explore</span>
+        </a>
+        <a href="#simulation" class="mobile-nav-item">
+            <i class="fas fa-flask"></i>
+            <span>Simulate</span>
+        </a>
+        <a href="#results" class="mobile-nav-item">
+            <i class="fas fa-chart-line"></i>
+            <span>Results</span>
+        </a>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero" id="home">
