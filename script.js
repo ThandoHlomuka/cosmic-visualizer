@@ -1,6 +1,272 @@
 // ==================== COSMIC VISUALIZATION ====================
 // 3D Solar System Simulator with No-Code Simulation Interface
 
+// ==================== ONBOARDING VARIABLES ====================
+let onboardingComplete = false;
+let launchSequenceRunning = false;
+let countdownValue = 10;
+let countdownInterval;
+let flightInterval;
+
+// ==================== ONBOARDING INITIALIZATION ====================
+document.addEventListener('DOMContentLoaded', () => {
+    // Check if user has completed onboarding before
+    const hasCompletedOnboarding = localStorage.getItem('cosmicOnboardingComplete');
+    
+    if (!hasCompletedOnboarding) {
+        startOnboarding();
+    } else {
+        // Skip onboarding, show main app
+        document.body.classList.remove('onboarding-active');
+        document.getElementById('onboarding').style.display = 'none';
+    }
+    
+    // Continue with rest of initialization
+    initSolarSystem();
+    initSimulationCanvas();
+    populateBodyList();
+    initCharts();
+    
+    console.log('✅ Cosmic Visualization Ready');
+});
+
+// ==================== ONBOARDING FUNCTIONS ====================
+function startOnboarding() {
+    document.body.classList.add('onboarding-active');
+    showStep(1);
+    createStars();
+}
+
+function showStep(stepNumber) {
+    // Hide all steps
+    document.querySelectorAll('.onboarding-step').forEach(step => {
+        step.classList.remove('active');
+    });
+    
+    // Show current step
+    const currentStep = document.getElementById(`step${stepNumber}`);
+    if (currentStep) {
+        currentStep.classList.add('active');
+    }
+}
+
+function startLaunchSequence() {
+    if (launchSequenceRunning) return;
+    
+    launchSequenceRunning = true;
+    
+    // Activate rocket flame
+    const flame = document.getElementById('rocketFlame');
+    if (flame) {
+        flame.classList.add('active');
+    }
+    
+    // Create exhaust particles
+    createExhaustParticles();
+    
+    // Move to countdown after delay
+    setTimeout(() => {
+        showStep(2);
+        startCountdown();
+    }, 2000);
+}
+
+function startCountdown() {
+    countdownValue = 10;
+    const countdownNumber = document.getElementById('countdownNumber');
+    const progressFill = document.getElementById('launchProgress');
+    const statusLight = document.querySelector('.status-light');
+    const statusText = document.querySelector('.launch-status span');
+    
+    countdownInterval = setInterval(() => {
+        countdownValue--;
+        
+        if (countdownNumber) {
+            countdownNumber.textContent = countdownValue;
+        }
+        
+        // Update progress bar
+        if (progressFill) {
+            const progress = ((10 - countdownValue) / 10) * 100;
+            progressFill.style.width = `${progress}%`;
+        }
+        
+        // Change status at T-3
+        if (countdownValue <= 3 && countdownValue > 0) {
+            if (statusLight) {
+                statusLight.classList.remove('green');
+                statusLight.classList.add('red');
+                statusLight.style.background = 'var(--warning)';
+                statusLight.style.boxShadow = '0 0 20px var(--warning)';
+            }
+            if (statusText) {
+                statusText.textContent = 'IGNITION SEQUENCE START';
+                statusText.style.color = 'var(--warning)';
+            }
+        }
+        
+        // Launch at T-0
+        if (countdownValue <= 0) {
+            clearInterval(countdownInterval);
+            setTimeout(startLiftoff, 500);
+        }
+    }, 1000);
+}
+
+function startLiftoff() {
+    showStep(3);
+    
+    // Create stars for space view
+    createSpaceStars();
+    
+    // Create speed lines
+    createSpeedLines();
+    
+    // Start flight simulation
+    startFlightSimulation();
+}
+
+function startFlightSimulation() {
+    let altitude = 0;
+    let velocity = 0;
+    let distance = 0;
+    let time = 0;
+    
+    const altitudeEl = document.getElementById('altitude');
+    const velocityEl = document.getElementById('velocity');
+    const distanceEl = document.getElementById('distance');
+    
+    flightInterval = setInterval(() => {
+        time += 0.1;
+        
+        // Simulate acceleration
+        altitude += 100 + (time * 10);
+        velocity += 50 + (time * 5);
+        distance += 0.001 + (time * 0.0001);
+        
+        if (altitudeEl) altitudeEl.textContent = `${Math.floor(altitude).toLocaleString()} km`;
+        if (velocityEl) velocityEl.textContent = `${Math.floor(velocity).toLocaleString()} km/h`;
+        if (distanceEl) distanceEl.textContent = `${distance.toFixed(4)} AU`;
+        
+        // Move to welcome screen after 6 seconds
+        if (time >= 6) {
+            clearInterval(flightInterval);
+            setTimeout(() => {
+                showStep(4);
+            }, 1000);
+        }
+    }, 100);
+}
+
+function enterApp() {
+    // Fade out onboarding
+    const onboarding = document.getElementById('onboarding');
+    onboarding.style.opacity = '0';
+    onboarding.style.transition = 'opacity 1s ease';
+    
+    setTimeout(() => {
+        onboarding.style.display = 'none';
+        document.body.classList.remove('onboarding-active');
+        
+        // Save onboarding completion
+        localStorage.setItem('cosmicOnboardingComplete', 'true');
+        
+        // Initialize the main app
+        console.log('🚀 Welcome to Mission Control!');
+    }, 1000);
+}
+
+// ==================== ANIMATION HELPERS ====================
+function createStars() {
+    // Stars for background effect
+    const container = document.querySelector('.rocket-platform');
+    if (!container) return;
+    
+    for (let i = 0; i < 50; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.animationDelay = `${Math.random() * 2}s`;
+        star.style.opacity = Math.random();
+        container.appendChild(star);
+    }
+}
+
+function createExhaustParticles() {
+    const container = document.getElementById('exhaustParticles');
+    if (!container) return;
+    
+    setInterval(() => {
+        const particle = document.createElement('div');
+        particle.style.cssText = `
+            position: absolute;
+            bottom: 0;
+            left: ${40 + Math.random() * 20}%;
+            width: ${5 + Math.random() * 10}px;
+            height: ${20 + Math.random() * 30}px;
+            background: linear-gradient(180deg, #ff6b35, #ffd700, transparent);
+            border-radius: 50%;
+            animation: exhaustRise 0.5s ease-out forwards;
+        `;
+        container.appendChild(particle);
+        
+        setTimeout(() => particle.remove(), 500);
+    }, 50);
+}
+
+function createSpaceStars() {
+    const container = document.getElementById('starsBg');
+    if (!container) return;
+    
+    for (let i = 0; i < 200; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.cssText = `
+            left: ${Math.random() * 100}%;
+            top: ${Math.random() * 100}%;
+            width: ${1 + Math.random() * 2}px;
+            height: ${1 + Math.random() * 2}px;
+            animation-delay: ${Math.random() * 2}s;
+            opacity: ${Math.random()};
+        `;
+        container.appendChild(star);
+    }
+}
+
+function createSpeedLines() {
+    const container = document.getElementById('speedLines');
+    if (!container) return;
+    
+    setInterval(() => {
+        const line = document.createElement('div');
+        line.className = 'speed-line';
+        line.style.cssText = `
+            left: ${Math.random() * 100}%;
+            animation-duration: ${0.3 + Math.random() * 0.3}s;
+        `;
+        container.appendChild(line);
+        
+        setTimeout(() => line.remove(), 600);
+    }, 50);
+}
+
+// Add exhaust animation to CSS dynamically
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes exhaustRise {
+        0% {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-100px) scale(0);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+
 // ==================== GLOBAL VARIABLES ====================
 let scene, camera, renderer;
 let celestialBodies = {};

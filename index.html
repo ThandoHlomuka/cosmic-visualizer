@@ -17,6 +17,121 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Rocket Onboarding -->
+    <div class="onboarding-container" id="onboarding">
+        <!-- Step 1: Welcome -->
+        <div class="onboarding-step active" id="step1">
+            <div class="onboarding-content">
+                <div class="rocket-platform">
+                    <div class="launch-pad">
+                        <div class="pad-base"></div>
+                        <div class="pad-support"></div>
+                    </div>
+                    <div class="rocket-ship" id="rocket">
+                        <div class="rocket-body">
+                            <div class="rocket-nose"></div>
+                            <div class="rocket-window"></div>
+                            <div class="rocket-fins">
+                                <div class="fin left"></div>
+                                <div class="fin right"></div>
+                            </div>
+                            <div class="rocket-flame" id="rocketFlame"></div>
+                        </div>
+                    </div>
+                    <div class="exhaust-particles" id="exhaustParticles"></div>
+                </div>
+                <h1 class="onboarding-title">Prepare for Launch</h1>
+                <p class="onboarding-subtitle">Blast off into the cosmos and explore our solar system</p>
+                <button class="btn-launch" onclick="startLaunchSequence()">
+                    <i class="fas fa-rocket"></i>
+                    <span>Initiate Launch Sequence</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 2: Countdown -->
+        <div class="onboarding-step" id="step2">
+            <div class="countdown-container">
+                <div class="countdown-display" id="countdownDisplay">
+                    <div class="countdown-number" id="countdownNumber">10</div>
+                    <div class="countdown-label">T-MINUS</div>
+                </div>
+                <div class="launch-status" id="launchStatus">
+                    <div class="status-light green"></div>
+                    <span>ALL SYSTEMS GO</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="launchProgress"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Liftoff -->
+        <div class="onboarding-step" id="step3">
+            <div class="space-view">
+                <div class="stars-background" id="starsBg"></div>
+                <div class="earth-view" id="earthView">
+                    <div class="earth"></div>
+                </div>
+                <div class="rocket-flying" id="rocketFlying">
+                    <div class="rocket-body">
+                        <div class="rocket-nose"></div>
+                        <div class="rocket-window"></div>
+                        <div class="rocket-fins">
+                            <div class="fin left"></div>
+                            <div class="fin right"></div>
+                        </div>
+                        <div class="rocket-flame flying"></div>
+                    </div>
+                </div>
+                <div class="speed-lines" id="speedLines"></div>
+            </div>
+            <div class="flight-info">
+                <div class="info-item">
+                    <span class="info-label">ALTITUDE</span>
+                    <span class="info-value" id="altitude">0 km</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">VELOCITY</span>
+                    <span class="info-value" id="velocity">0 km/h</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">DISTANCE</span>
+                    <span class="info-value" id="distance">0 AU</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Welcome to App -->
+        <div class="onboarding-step" id="step4">
+            <div class="welcome-container">
+                <div class="welcome-icon">
+                    <i class="fas fa-satellite"></i>
+                </div>
+                <h1 class="welcome-title">Welcome Aboard!</h1>
+                <p class="welcome-message">You've reached the Cosmic Visualization Lab</p>
+                <div class="feature-highlights">
+                    <div class="feature-item">
+                        <i class="fas fa-globe"></i>
+                        <span>Explore 8 Planets</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-flask"></i>
+                        <span>Run Simulations</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Analyze Data</span>
+                    </div>
+                </div>
+                <button class="btn-enter" onclick="enterApp()">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Enter Mission Control</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
