@@ -1075,12 +1075,48 @@ section::before {
     box-shadow: 0 0 60px rgba(6, 214, 160, 0.8);
 }
 
+.btn-skip {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    background: transparent;
+    color: var(--gray-400);
+    border: 2px solid var(--gray-600);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: var(--transition-base);
+    margin-top: 1rem;
+}
+
+.btn-skip:hover {
+    border-color: var(--gray-400);
+    color: var(--white);
+    transform: scale(1.05);
+}
+
 /* Hide main content during onboarding */
 body.onboarding-active .navbar,
 body.onboarding-active .hero,
-body.onboarding-active section,
+body.onboarding-active .solar-system-section,
+body.onboarding-active .simulation-section,
+body.onboarding-active .results-section,
 body.onboarding-active footer {
-    display: none;
+    display: none !important;
+}
+
+/* Ensure content shows after onboarding */
+body:not(.onboarding-active) .navbar,
+body:not(.onboarding-active) .hero,
+body:not(.onboarding-active) section,
+body:not(.onboarding-active) footer {
+    display: block !important;
+}
+
+body:not(.onboarding-active) .hero {
+    display: flex !important;
 }
 
 /* Responsive */

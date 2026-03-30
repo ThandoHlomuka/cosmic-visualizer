@@ -10,22 +10,31 @@ let flightInterval;
 
 // ==================== ONBOARDING INITIALIZATION ====================
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('🌌 Cosmic Visualization Loading...');
+    
     // Check if user has completed onboarding before
     const hasCompletedOnboarding = localStorage.getItem('cosmicOnboardingComplete');
     
     if (!hasCompletedOnboarding) {
         startOnboarding();
+        // Initialize 3D scenes in background
+        setTimeout(() => {
+            initSolarSystem();
+            initSimulationCanvas();
+        }, 100);
     } else {
         // Skip onboarding, show main app
         document.body.classList.remove('onboarding-active');
-        document.getElementById('onboarding').style.display = 'none';
+        const onboarding = document.getElementById('onboarding');
+        if (onboarding) {
+            onboarding.style.display = 'none';
+        }
+        // Initialize everything
+        initSolarSystem();
+        initSimulationCanvas();
+        populateBodyList();
+        initCharts();
     }
-    
-    // Continue with rest of initialization
-    initSolarSystem();
-    initSimulationCanvas();
-    populateBodyList();
-    initCharts();
     
     console.log('✅ Cosmic Visualization Ready');
 });
@@ -159,21 +168,76 @@ function startFlightSimulation() {
 }
 
 function enterApp() {
+    console.log('🚀 Entering Mission Control...');
+    
     // Fade out onboarding
     const onboarding = document.getElementById('onboarding');
-    onboarding.style.opacity = '0';
-    onboarding.style.transition = 'opacity 1s ease';
+    if (onboarding) {
+        onboarding.style.opacity = '0';
+        onboarding.style.transition = 'opacity 1s ease';
+        
+        setTimeout(() => {
+            onboarding.style.display = 'none';
+            document.body.classList.remove('onboarding-active');
+            
+            // Show main content
+            const navbar = document.querySelector('.navbar');
+            const hero = document.querySelector('.hero');
+            const sections = document.querySelectorAll('section');
+            const footer = document.querySelector('footer');
+            
+            if (navbar) navbar.style.display = 'block';
+            if (hero) hero.style.display = 'flex';
+            sections.forEach(section => {
+                section.style.display = 'block';
+            });
+            if (footer) footer.style.display = 'block';
+            
+            // Save onboarding completion
+            localStorage.setItem('cosmicOnboardingComplete', 'true');
+            
+            // Populate body list and initialize charts if not done
+            populateBodyList();
+            initCharts();
+            
+            // Re-render solar system
+            if (renderer && scene && camera) {
+                renderer.render(scene, camera);
+            }
+            
+            console.log('🚀 Welcome to Mission Control!');
+        }, 1000);
+    }
+}
+
+function skipOnboarding() {
+    console.log('⏭️ Skipping onboarding...');
+    localStorage.setItem('cosmicOnboardingComplete', 'true');
     
-    setTimeout(() => {
-        onboarding.style.display = 'none';
-        document.body.classList.remove('onboarding-active');
+    const onboarding = document.getElementById('onboarding');
+    if (onboarding) {
+        onboarding.style.opacity = '0';
+        onboarding.style.transition = 'opacity 0.5s ease';
         
-        // Save onboarding completion
-        localStorage.setItem('cosmicOnboardingComplete', 'true');
-        
-        // Initialize the main app
-        console.log('🚀 Welcome to Mission Control!');
-    }, 1000);
+        setTimeout(() => {
+            onboarding.style.display = 'none';
+            document.body.classList.remove('onboarding-active');
+            
+            // Show all content
+            document.querySelectorAll('.navbar, .hero, section, footer').forEach(el => {
+                el.style.display = '';
+            });
+            document.querySelector('.hero').style.display = 'flex';
+            
+            // Initialize everything
+            initSolarSystem();
+            initSimulationCanvas();
+            populateBodyList();
+            initCharts();
+            
+            console.log('🚀 Welcome to Mission Control!');
+        }, 500);
+    }
 }
 
 // ==================== ANIMATION HELPERS ====================
