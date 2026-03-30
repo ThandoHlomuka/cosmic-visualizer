@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Visualization - Solar System Simulator</title>
+    <meta name="description" content="Interactive 3D solar system simulator. Run celestial body simulations without code and visualize results in real-time.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌌</text></svg>">
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="logo-main">Cosmic</span>
+                    <span class="logo-sub">Visualization</span>
+                </div>
+            </div>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#solar-system" class="nav-link">Solar System</a></li>
+                <li><a href="#simulation" class="nav-link">Simulation</a></li>
+                <li><a href="#results" class="nav-link">Results</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <button class="btn btn-primary" onclick="toggleFullScreen()">
+                    <i class="fas fa-expand"></i> Full Screen
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-bg" id="heroCanvas"></div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-star"></i>
+                <span>Interactive 3D Space Simulation</span>
+            </div>
+            <h1 class="hero-title">
+                Explore the <span class="gradient-text">Cosmos</span> in 3D
+            </h1>
+            <p class="hero-subtitle">
+                Run realistic celestial body simulations without writing a single line of code. 
+                Visualize planets, moons, asteroids, and comets in our interactive solar system.
+            </p>
+            <div class="hero-cta">
+                <a href="#simulation" class="btn btn-primary btn-lg">
+                    <i class="fas fa-play"></i> Start Simulation
+                </a>
+                <a href="#solar-system" class="btn btn-outline btn-lg">
+                    <i class="fas fa-globe"></i> Explore Solar System
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Planets</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">200+</div>
+                    <div class="stat-label">Moons</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">1M+</div>
+                    <div class="stat-label">Asteroids</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">Real-time</div>
+                    <div class="stat-label">Simulation</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solar System View -->
+    <section class="solar-system-section" id="solar-system">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge"><i class="fas fa-sun"></i> Our Solar System</span>
+                <h2 class="section-title">Celestial <span class="gradient-text">Bodies</span></h2>
+                <p class="section-subtitle">Explore all major celestial bodies in our solar system with accurate orbital mechanics</p>
+            </div>
+
+            <div class="solar-system-container">
+                <div class="canvas-wrapper">
+                    <canvas id="solarSystemCanvas"></canvas>
+                    <div class="canvas-controls">
+                        <button class="control-btn" onclick="zoomIn()" title="Zoom In">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button class="control-btn" onclick="zoomOut()" title="Zoom Out">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button class="control-btn" onclick="resetView()" title="Reset View">
+                            <i class="fas fa-compress-arrows-alt"></i>
+                        </button>
+                        <button class="control-btn" onclick="toggleOrbits()" title="Toggle Orbits">
+                            <i class="fas fa-circle-notch"></i>
+                        </button>
+                        <button class="control-btn" onclick="toggleLabels()" title="Toggle Labels">
+                            <i class="fas fa-tag"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="body-selector">
+                    <h3><i class="fas fa-list"></i> Select Celestial Body</h3>
+                    <div class="body-list" id="bodyList">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="body-info" id="bodyInfo">
+                    <div class="info-header">
+                        <h3 id="infoTitle">Select a celestial body</h3>
+                        <button class="close-btn" onclick="closeBodyInfo()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="info-content" id="infoContent">
+                        <p>Click on any celestial body to view detailed information</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Simulation Section -->
+    <section class="simulation-section" id="simulation">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge"><i class="fas fa-flask"></i> Simulation Lab</span>
+                <h2 class="section-title">Run <span class="gradient-text">Simulations</span></h2>
+                <p class="section-subtitle">Configure and run celestial mechanics simulations without code</p>
+            </div>
+
+            <div class="simulation-container">
+                <div class="simulation-controls">
+                    <div class="control-panel">
+                        <h3><i class="fas fa-sliders-h"></i> Simulation Parameters</h3>
+                        
+                        <div class="control-group">
+                            <label>Simulation Type</label>
+                            <select id="simType" onchange="updateSimulationParams()">
+                                <option value="orbital">Orbital Mechanics</option>
+                                <option value="gravity">Gravitational Interaction</option>
+                                <option value="collision">Collision Detection</option>
+                                <option value="trajectory">Trajectory Analysis</option>
+                                <option value="nbody">N-Body Simulation</option>
+                            </select>
+                        </div>
+
+                        <div class="control-group">
+                            <label>Primary Body</label>
+                            <select id="primaryBody">
+                                <option value="sun">Sun</option>
+                                <option value="mercury">Mercury</option>
+                                <option value="venus">Venus</option>
+                                <option value="earth">Earth</option>
+                                <option value="mars">Mars</option>
+                                <option value="jupiter">Jupiter</option>
+                                <option value="saturn">Saturn</option>
+                                <option value="uranus">Uranus</option>
+                                <option value="neptune">Neptune</option>
+                            </select>
+                        </div>
+
+                        <div class="control-group">
+                            <label>Secondary Body (Optional)</label>
+                            <select id="secondaryBody">
+                                <option value="none">None</option>
+                                <option value="mercury">Mercury</option>
+                                <option value="venus">Venus</option>
+                                <option value="earth">Earth</option>
+                                <option value="mars">Mars</option>
+                                <option value="jupiter">Jupiter</option>
+                                <option value="saturn">Saturn</option>
+                                <option value="uranus">Uranus</option>
+                                <option value="neptune">Neptune</option>
+                                <option value="moon">Moon</option>
+                                <option value="io">Io</option>
+                                <option value="europa">Europa</option>
+                                <option value="titan">Titan</option>
+                            </select>
+                        </div>
+
+                        <div class="control-group">
+                            <label>Time Scale</label>
+                            <div class="slider-container">
+                                <input type="range" id="timeScale" min="1" max="1000" value="100" step="10">
+                                <span id="timeScaleValue">100x</span>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label>Simulation Duration (days)</label>
+                            <input type="number" id="simDuration" value="365" min="1" max="10000">
+                        </div>
+
+                        <div class="control-group">
+                            <label>Accuracy Level</label>
+                            <select id="accuracyLevel">
+                                <option value="low">Low (Fast)</option>
+                                <option value="medium" selected>Medium (Balanced)</option>
+                                <option value="high">High (Precise)</option>
+                            </select>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="showTrails" checked>
+                                Show Orbital Trails
+                            </label>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="realTime" checked>
+                                Real-time Visualization
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-primary btn-lg btn-block" onclick="startSimulation()">
+                            <i class="fas fa-play"></i> Start Simulation
+                        </button>
+                        <button class="btn btn-outline btn-lg btn-block" onclick="pauseSimulation()">
+                            <i class="fas fa-pause"></i> Pause
+                        </button>
+                        <button class="btn btn-outline btn-lg btn-block" onclick="resetSimulation()">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                        <button class="btn btn-outline btn-lg btn-block" onclick="exportResults()">
+                            <i class="fas fa-download"></i> Export Results
+                        </button>
+                    </div>
+                </div>
+
+                <div class="simulation-view">
+                    <div class="view-header">
+                        <h3><i class="fas fa-desktop"></i> Simulation View</h3>
+                        <div class="view-status" id="simStatus">
+                            <span class="status-indicator"></span>
+                            <span class="status-text">Ready</span>
+                        </div>
+                    </div>
+                    <div class="canvas-container">
+                        <canvas id="simulationCanvas"></canvas>
+                    </div>
+                    <div class="simulation-overlay">
+                        <div class="overlay-item">
+                            <span class="overlay-label">Time Elapsed:</span>
+                            <span class="overlay-value" id="timeElapsed">0 days</span>
+                        </div>
+                        <div class="overlay-item">
+                            <span class="overlay-label">Distance:</span>
+                            <span class="overlay-value" id="currentDistance">0 AU</span>
+                        </div>
+                        <div class="overlay-item">
+                            <span class="overlay-label">Velocity:</span>
+                            <span class="overlay-value" id="currentVelocity">0 km/s</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results-section" id="results">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge"><i class="fas fa-chart-line"></i> Results & Analytics</span>
+                <h2 class="section-title">Simulation <span class="gradient-text">Results</span></h2>
+                <p class="section-subtitle">Analyze and visualize your simulation data with interactive charts</p>
+            </div>
+
+            <div class="results-container">
+                <div class="results-grid">
+                    <div class="result-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-area"></i> Orbital Distance</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="distanceChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-tachometer-alt"></i> Velocity Profile</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="velocityChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-circle"></i> Orbital Path</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="orbitChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-clock"></i> Period Analysis</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="periodChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="data-table">
+                    <h3><i class="fas fa-table"></i> Simulation Data</h3>
+                    <div class="table-container">
+                        <table id="resultsTable">
+                            <thead>
+                                <tr>
+                                    <th>Time (days)</th>
+                                    <th>Distance (AU)</th>
+                                    <th>Velocity (km/s)</th>
+                                    <th>Position (x, y, z)</th>
+                                    <th>Energy (J)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resultsTableBody">
+                                <tr>
+                                    <td colspan="5" class="empty-state">Run a simulation to see results</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="export-options">
+                    <button class="btn btn-primary" onclick="exportData('csv')">
+                        <i class="fas fa-file-csv"></i> Export CSV
+                    </button>
+                    <button class="btn btn-primary" onclick="exportData('json')">
+                        <i class="fas fa-file-code"></i> Export JSON
+                    </button>
+                    <button class="btn btn-primary" onclick="exportData('png')">
+                        <i class="fas fa-image"></i> Export Images
+                    </button>
+                    <button class="btn btn-outline" onclick="clearResults()">
+                        <i class="fas fa-trash"></i> Clear Results
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <div class="footer-logo">
+                        <i class="fas fa-rocket"></i>
+                        <span>Cosmic Visualization</span>
+                    </div>
+                    <p>Interactive 3D solar system simulator for education and research</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#solar-system">Solar System</a></li>
+                        <li><a href="#simulation">Simulation</a></li>
+                        <li><a href="#results">Results</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#" onclick="showHelp()">Help Guide</a></li>
+                        <li><a href="#" onclick="showAbout()">About</a></li>
+                        <li><a href="#" onclick="showCredits()">Credits</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Cosmic Visualization. Built for space exploration and education.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
