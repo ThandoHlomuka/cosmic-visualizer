@@ -1,7 +1,8 @@
 # 🌌 Cosmic Visualization - Solar System Simulator
 
-[![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/ThandoHlomuka/cosmic-visualization)
+[![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/ThandoHlomuka/cosmic-visualizer)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Deploy](https://github.com/ThandoHlomuka/cosmic-visualizer/actions/workflows/vercel-deploy.yml/badge.svg)](https://github.com/ThandoHlomuka/cosmic-visualizer/actions/workflows/vercel-deploy.yml)
 
 > **Interactive 3D solar system simulator** - Run celestial body simulations without code and visualize results in real-time.
 
