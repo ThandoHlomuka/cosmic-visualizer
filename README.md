@@ -1,10 +1,25 @@
 # 🌌 Cosmic Visualization - Solar System Simulator
 
 [![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/ThandoHlomuka/cosmic-visualizer)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
 [![Deploy](https://github.com/ThandoHlomuka/cosmic-visualizer/actions/workflows/vercel-deploy.yml/badge.svg)](https://github.com/ThandoHlomuka/cosmic-visualizer/actions/workflows/vercel-deploy.yml)
 
 > **Interactive 3D solar system simulator** - Run celestial body simulations without code and visualize results in real-time.
+
+---
+
+## ⚠️ LICENSE NOTICE
+
+**This project is protected under proprietary license.**
+
+- ❌ **No unauthorized copying, distribution, or modification**
+- ❌ **No commercial use without explicit permission**
+- ✅ **Personal viewing and study permitted**
+- ✅ **Permission requests welcome**
+
+See [LICENSE](LICENSE) for full terms. To request usage permission, contact: **hello@metrainnovations.co.za**
+
+---
 
 ## ✨ Features
 
@@ -225,7 +240,29 @@ Contributions welcome! Please:
 
 ## 📄 License
 
-MIT License - See LICENSE file for details.
+**Proprietary License - All Rights Reserved**
+
+This project is **NOT** open source. See [LICENSE](LICENSE) for full terms.
+
+### What You CAN Do:
+- ✅ View the source code for personal educational purposes
+- ✅ Study the algorithms and implementation for personal learning
+- ✅ Cite this project in academic papers with proper attribution
+
+### What You CAN'T Do (Without Permission):
+- ❌ Copy, reproduce, or distribute this code
+- ❌ Use this code in commercial projects
+- ❌ Modify or create derivative works
+- ❌ Sell or sublicense this software
+- ❌ Remove copyright notices
+
+### How to Request Permission:
+
+**Contact:** Thando Hlomuka  
+**Email:** hello@metrainnovations.co.za  
+**Website:** https://www.metrainnovations.co.za
+
+Include your intended use case, whether commercial or non-commercial, and which parts you wish to use.
 
 ## 🙏 Acknowledgments
 

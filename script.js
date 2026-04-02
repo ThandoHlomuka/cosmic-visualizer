@@ -1,3 +1,13 @@
+/* ============================================================================
+   COSMIC VISUALIZATION - Solar System Simulator
+   Copyright (c) 2026 Thando Hlomuka. All Rights Reserved.
+   
+   This code is protected under proprietary license.
+   Unauthorized copying, distribution, or use is strictly prohibited.
+   See LICENSE file for full terms.
+   Contact: hello@metrainnovations.co.za
+   ========================================================================== */
+
 // ==================== COSMIC VISUALIZATION ====================
 // 3D Solar System Simulator with No-Code Simulation Interface
 
