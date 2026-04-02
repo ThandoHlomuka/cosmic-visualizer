@@ -1952,6 +1952,17 @@ tbody tr:hover {
     font-size: 0.9375rem;
 }
 
+.footer-bottom .developer-credit {
+    margin-top: 0.5rem;
+    color: var(--gray-400);
+    font-size: 0.875rem;
+}
+
+.footer-bottom .developer-credit strong {
+    color: var(--primary-accent);
+    font-weight: 600;
+}
+
 /* ==================== RESPONSIVE ==================== */
 @media (max-width: 1024px) {
     .solar-system-container,
