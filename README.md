@@ -17,7 +17,7 @@
 - ✅ **Personal viewing and study permitted**
 - ✅ **Permission requests welcome**
 
-See [LICENSE](LICENSE) for full terms. To request usage permission, contact: **hello@metrainnovations.co.za**
+See [LICENSE](LICENSE) for full terms. To request usage permission, contact: **thandohlomuka8@gmail.com**
 
 ---
 
@@ -259,7 +259,7 @@ This project is **NOT** open source. See [LICENSE](LICENSE) for full terms.
 ### How to Request Permission:
 
 **Contact:** Thando Hlomuka  
-**Email:** hello@metrainnovations.co.za  
+**Email:** thandohlomuka8@gmail.com  
 **Website:** https://www.metrainnovations.co.za
 
 Include your intended use case, whether commercial or non-commercial, and which parts you wish to use.
