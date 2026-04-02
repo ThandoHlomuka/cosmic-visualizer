@@ -641,56 +641,72 @@ function updateActiveNavLink() {
 function initSolarSystem() {
     const canvas = document.getElementById('solarSystemCanvas');
     
+    if (!canvas) {
+        console.error('Canvas element not found!');
+        return;
+    }
+
+    // Ensure canvas has proper dimensions
+    const width = canvas.clientWidth || 800;
+    const height = canvas.clientHeight || 600;
+    
+    console.log('🌌 Initializing Solar System - Canvas:', width, 'x', height);
+
     // Scene setup
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0x0a0a0f);
-    
+
     // Camera setup
     camera = new THREE.PerspectiveCamera(
         60,
-        canvas.clientWidth / canvas.clientHeight,
+        width / height,
         0.1,
         10000
     );
     camera.position.set(0, 200, 400);
     camera.lookAt(0, 0, 0);
-    
+
     // Renderer setup
     renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    renderer.setSize(width, height);
     renderer.setPixelRatio(window.devicePixelRatio);
-    
+
     // Add lighting
     const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
     scene.add(ambientLight);
-    
+
     const pointLight = new THREE.PointLight(0xffffff, 2, 1000);
     pointLight.position.set(0, 0, 0);
     scene.add(pointLight);
-    
+
     // Create starfield background
     createStarfield();
-    
+
     // Create celestial bodies
     Object.keys(celestialData).forEach(key => {
         createCelestialBody(key, celestialData[key]);
     });
-    
+
     // Create orbit paths
     Object.keys(celestialData).forEach(key => {
         if (celestialData[key].type === 'planet') {
             createOrbit(key, celestialData[key]);
         }
     });
+
+    // Initial render
+    renderer.render(scene, camera);
     
     // Animation loop
     animateSolarSystem();
-    
+
     // Handle window resize
     window.addEventListener('resize', () => {
-        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        const newWidth = canvas.clientWidth || 800;
+        const newHeight = canvas.clientHeight || 600;
+        camera.aspect = newWidth / newHeight;
         camera.updateProjectionMatrix();
-        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        renderer.setSize(newWidth, newHeight);
     });
 }
 
@@ -796,26 +812,37 @@ function animateSolarSystem() {
 function initSimulationCanvas() {
     const canvas = document.getElementById('simulationCanvas');
     
+    if (!canvas) {
+        console.error('Simulation canvas element not found!');
+        return;
+    }
+
+    // Ensure canvas has proper dimensions
+    const width = canvas.clientWidth || 800;
+    const height = canvas.clientHeight || 400;
+    
+    console.log('🔬 Initializing Simulation Canvas - Canvas:', width, 'x', height);
+
     const simScene = new THREE.Scene();
     simScene.background = new THREE.Color(0x0a0a0f);
-    
+
     const simCamera = new THREE.PerspectiveCamera(
         60,
-        canvas.clientWidth / canvas.clientHeight,
+        width / height,
         0.1,
         10000
     );
     simCamera.position.set(0, 150, 300);
     simCamera.lookAt(0, 0, 0);
-    
+
     const simRenderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-    simRenderer.setSize(canvas.clientWidth, canvas.clientHeight);
-    
+    simRenderer.setSize(width, height);
+
     // Add lighting
     const simLight = new THREE.PointLight(0xffffff, 2, 500);
     simLight.position.set(0, 0, 0);
     simScene.add(simLight);
-    
+
     // Store simulation objects
     window.simulationObjects = {
         scene: simScene,
@@ -824,10 +851,10 @@ function initSimulationCanvas() {
         bodies: {},
         trails: []
     };
-    
+
     // Create initial display
     createSimulationDisplay();
-    
+
     // Animation loop
     animateSimulation();
 }
